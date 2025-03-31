@@ -18,4 +18,19 @@ This project builds an end-to-end MNIST digit recognition app using PyTorch, Pos
 - **Containerization**: Docker is used to containerize the app, the ML model and PostgreSQL.
 - **Deployment**: The app is deployed on a server.
 
+### **Project Structure**  
 
+```plaintext
+app_ml/
+├── docker-compose.yml          # Multi-container setup
+├── model_api/                  # Model prediction service
+│   ├── Dockerfile              # Dockerfile for model API container
+│   ├── model.py                # PyTorch model script
+│   ├── app.py                  # FastAPI app serving the model
+│   ├──model.pth                   # Pre-trained model weights
+│   └── requirements.txt        # Python dependencies for model API
+├── streamlit_app/              # Streamlit app directory
+│   ├── Dockerfile              # Dockerfile for Streamlit app container
+│   ├── streamlit.py            # Main Streamlit app file
+│   └── requirements.txt        # Python dependencies for Streamlit app
+├── init.sql                    # Initial SQL schema for PostgreSQL
