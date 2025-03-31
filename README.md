@@ -33,4 +33,22 @@ app_ml/
 │   ├── Dockerfile              # Dockerfile for Streamlit app container
 │   ├── streamlit.py            # Main Streamlit app file
 │   └── requirements.txt        # Python dependencies for Streamlit app
-├── init.sql                    # Initial SQL schema for PostgreSQL
+├── init.sql                    # Initial SQL schema for PostgreSQL 
+```
+
+### **Building and Running the Docker Containers** 
+
+### **1. Building the Docker Images**  
+
+Navigate to the root of the project and build the images:  
+
+```bash
+docker-compose build
+```
+
+### **2. Running the Containers**
+
+To start all services defined in docker-compose.yml - run in detached mode
+```bash
+docker-compose up --build -d
+```
