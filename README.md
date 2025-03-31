@@ -27,7 +27,7 @@ app_ml/
 │   ├── Dockerfile              # Dockerfile for model API container
 │   ├── model.py                # PyTorch model script
 │   ├── app.py                  # FastAPI app serving the model
-│   ├──model.pth                   # Pre-trained model weights
+│   ├── model.pth                   # Pre-trained model weights
 │   └── requirements.txt        # Python dependencies for model API
 ├── streamlit_app/              # Streamlit app directory
 │   ├── Dockerfile              # Dockerfile for Streamlit app container
