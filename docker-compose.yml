@@ -1,0 +1,58 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: prediction_log
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - /root/machine_learning_institute/app_ml/init.sql:/docker-entrypoint-initdb.d/init.sql  # Mounting the init.sql script
+    networks:
+      - app_network
+
+  model_service:
+    build:
+      context: ./model_api  # Build context for the model API
+    ports:
+      - "8000:8000"
+    networks:
+      - app_network
+    depends_on:
+      - postgres
+    volumes:
+      - /root/machine_learning_institute/app_ml/model_api:/app  # Mounting the model_api directory into the container
+      # Remove this line for model.pth volume mount
+      # - /root/machine_learning_institute/app_ml/model.pth:/app/model.pth
+
+  streamlit:
+    build:
+      context: ./streamlit_app  # Build context for the Streamlit app
+    ports:
+      - "8502:8501"
+    depends_on:
+      - postgres
+      - model_service
+    networks:
+      - app_network
+    environment:
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_NAME: prediction_log
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: mysecretpassword
+      MODEL_SERVICE_URL: "http://model_service:8000/predict/"
+    volumes:
+      - ./streamlit_app:/app  # Mount the local streamlit_app directory into the container
+
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
